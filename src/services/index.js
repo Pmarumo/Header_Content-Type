@@ -12,7 +12,7 @@ module.exports = {
             );
             resp.status(201).send(serializador.transformar(results));
         } catch (error) {
-            next(error);
+            next(error)
         }
     },
 
@@ -26,7 +26,7 @@ module.exports = {
             )
             resp.status(201).send(serializador.transformar(agendamento))
         } catch (error) {
-            next(error);
+            next(error)
         }
     },
     //tratando os erros:
@@ -40,7 +40,7 @@ module.exports = {
             );
             resp.status(201).send(serializador.transformar(agendamento));
         } catch (error) {
-            next(error);
+            next(error)
         }
     },
 
@@ -56,7 +56,7 @@ module.exports = {
                 {message: `Agendamento: ${id} removido com sucesso!`})
                 );
         } catch (error) { 
-            next(error);
+            next(error)
         }
     },
 
@@ -72,7 +72,7 @@ module.exports = {
             );
             resp.status(201).send(serializador.transformar(agendamento));
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 }

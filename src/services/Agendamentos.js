@@ -80,9 +80,8 @@ class Agendamento {
     async remover() {
         const result = await sequelizeAgendamento.remover(this.id);
         if(result == 0) {
-            throw new NaoEncontrado();//completar
+            throw new NaoEncontrado('Agendamento');
         }
-//       console.log('VERIFICAR', result)
     }
 };
 
