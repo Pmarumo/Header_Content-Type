@@ -1,14 +1,15 @@
 // quem vai conversar com a rota e com o objeto
 const Agendamento = require('./Agendamentos'); //Agendamento
-const SequelizeAgendamentos = require('../models/SequelizeAgendamentos');
-const SerializarAgendamento = require('../shared/Serializar').SerializarAgendamento;
+const SequelizeAgendamentos = require('../../models/agendamentos/SequelizeAgendamentos');
+const SerializarAgendamento = require('../../shared/Serializar').SerializarAgendamento;
 
 module.exports = {
     carregarTodosAgendamentos: async(req, resp, next) => { //vai dar um erro... 
         try {
             const results = await SequelizeAgendamentos.listar();  
             const serializador = new SerializarAgendamento(
-                resp.getHeader('Content-Type')
+                resp.getHeader('Content-Type'),
+                ['status']
             );
             resp.status(201).send(serializador.transformar(results));
         } catch (error) {
@@ -54,7 +55,7 @@ module.exports = {
             );
             resp.status(201).send(serializador.transformar(
                 {message: `Agendamento: ${id} removido com sucesso!`})
-                );
+                )
         } catch (error) { 
             next(error)
         }
@@ -72,7 +73,7 @@ module.exports = {
             );
             resp.status(201).send(serializador.transformar(agendamento));
         } catch (error) {
-            next(error)
+            next(error);
         }
     }
 }

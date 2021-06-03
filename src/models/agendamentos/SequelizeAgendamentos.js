@@ -1,14 +1,13 @@
 const TabelaAgendamento = require('./TabelaAgendamento'); //importei a tabela de agendamento
-const NãoEncontrado = require('../errors/NaoEncontrado');
-const NaoEncontrado = require('../errors/NaoEncontrado');
+const NaoEncontrado = require('../../errors/NaoEncontrado');
+
 // exportar um objeto >> criar várias funções
 module.exports = {
     async listar() {
         try {
-            result = await TabelaAgendamento.findAll({
-                raw: true,
+            return await TabelaAgendamento.findAll({
+                raw: true
             }); 
-            return result
         } catch (error) {
             throw error
         }   
@@ -22,9 +21,9 @@ module.exports = {
                 throw new NaoEncontrado('agendamento');
             }
             
-            return result
+            return result;
         } catch (error){
-            throw error
+            throw error;
         }
     },
 
@@ -33,7 +32,7 @@ module.exports = {
             result = await TabelaAgendamento.create(agendamento);
             return result;
         } catch (error) {
-            throw error
+            throw error;
         }
     },
 
@@ -44,11 +43,10 @@ module.exports = {
                     where: {
                         id:id
                     }
-                }
-            );
-            return result        
+                });
+            return result;
         } catch (error) {
-            throw error
+            throw error;
         }
     },
 
@@ -59,9 +57,9 @@ module.exports = {
                     id:id
                 }
             });
-            return result
+            return result;
         } catch (error) {
-            throw error
+            throw error;
         }
     }
 };

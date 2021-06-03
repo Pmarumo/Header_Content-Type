@@ -1,9 +1,11 @@
 // constructor e métodos para que possamos trabalhar.
-const sequelizeAgendamento = require('../models/SequelizeAgendamentos');
+const sequelizeAgendamento = require('../../models/agendamentos/SequelizeAgendamentos');
 const moment = require('moment');
-const CampoInvalido = require('../errors/CampoInvalido');
-const NaoEncontrado = require('../errors/NaoEncontrado');
-const DadosNaoInformados = require('../errors/DadosNaoInformados');
+const CampoInvalido = require('../../errors/CampoInvalido');
+const NaoEncontrado = require('../../errors/NaoEncontrado');
+const DadosNaoInformados = require('../../errors/DadosNaoInformados');
+const CampoQtdeMaxima = require('../../errors/CampoQtdeMaxima');
+const CampoQtdeMinima = require('../../errors/CampoQtdeMinima');
 
 class Agendamento {
     constructor({id, nome_cliente, nome_servico, status, data_agendamento, 
@@ -48,6 +50,10 @@ class Agendamento {
         camposAtualizaveis.forEach((campo) => {
             const valor = this[campo];
             if( typeof valor === 'string' && valor.length > 0) {
+                if(campo === 'senha') {
+        //            dadosAtualizar[campo] = await this.gerarHash(valor);
+                    return
+                }
                 dadosAtualizar[campo] = valor
             }
         });
@@ -68,19 +74,28 @@ class Agendamento {
         //percorrendo um array
         camposObrigatorios.forEach((campo) => {
             const valor = this[campo]; 
-            if(typeof valor !== 'string' || valor.length ===0) {
+            if(typeof valor !== 'string' || valor.length === 0) {
                 throw new CampoInvalido(campo);
             }
+
             if(campo == 'data_agendamento' && !moment(valor).isSameOrAfter(hoje)) { // !não é >= hoje
                 throw new Error('Data Inválida'); //criar um erro para data inválida
             }
-        });  
-    };
-//não deu certo o remover...
+
+            if(valor.length > 60) {
+                throw new CampoQtdeMaxima();
+            }
+
+            if(valor.length < 8 && (campo !== 'nome_cliente' && campo !== 'nome_servico')) {
+                throw new CampoQtdeMinima();
+            }
+        })
+    }
+
     async remover() {
         const result = await sequelizeAgendamento.remover(this.id);
         if(result == 0) {
-            throw new NaoEncontrado('Agendamento');
+            throw new NaoEncontrado('Agendamento inexistente');
         }
     }
 };

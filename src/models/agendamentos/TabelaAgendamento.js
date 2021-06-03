@@ -1,7 +1,7 @@
-const { STRING } = require('sequelize');
+//const { STRING } = require('sequelize');
 const Sequelize = require('sequelize');
 // instancia é a conexão
-const instanciadb = require('../db'); //arquivo index carrega automaticamente
+const instanciadb = require('../../db'); //arquivo index carrega automaticamente
 //criar objeto:
 const colums = {
     nome_cliente: { //configuração do sequelize

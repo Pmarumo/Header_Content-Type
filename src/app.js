@@ -1,6 +1,7 @@
 const configExpress = require("./config/configExpress");
 const config = require('config');
-const instanciadb = require("./db");
+const instanciadb = require('./db');
+require('dotenv').config();
 //abaixo, função anônima assícrona com promise - arrow function
 // precisa executar a função
 
@@ -16,6 +17,7 @@ const instanciadb = require("./db");
         throw error;
     };
   
-})();
+})
+//();
 
 
